@@ -1,0 +1,42 @@
+@if (shownSuccessMsg()) {
+  <div class="w-[80%] mx-auto bg-[#8bc349] bg-opacity-70 h-[50px] text-white text-[.9rem] rounded-sm relative font-semibold flex items-center justify-start px-8">
+    <div class="absolute left-0 top-0 w-[20px] bg-[#8bc349]  bg-opacity-80 h-full ">
+    </div>
+    <p>Request Marked As Occupied Succesfully ! Check my requests Tab </p>
+  </div>
+}
+
+
+<div class="w-[80%] mx-auto mt-10 p-6 bg-white rounded-lg shadow-xl relative">
+    <app-title title="Pending Collection Requests" />
+
+   <div class="flex flex-col gap-2 mt-12">
+    <div *ngIf="pendingRequests.length === 0" class="text-center text-gray-500">
+      There are no pending requests in your area at the moment.
+    </div>
+  
+    <div *ngFor="let request of pendingRequests" class="mb-6 p-4 border rounded-lg">
+      <div class="flex justify-between items-center mb-2">
+        <span class="text-secondary-green font-semibold text-[.9rem]">Request ID: {{ request.id }}</span>
+        <span class="px-2 py-1 rounded-full text-sm bg-yellow-200 text-yellow-800">
+          Pending
+        </span>
+      </div>
+      <p><span class="text-secondary-green font-semibold text-[.9rem]">Collection Address:</span> {{ request.collectionAddress }}</p>
+      <p><span class="text-secondary-green font-semibold text-[.9rem]">Collection Date & Time:</span> {{ request.collectionDateTime }}</p>
+      <div class="mt-2">
+        <h4 class="text-secondary-green font-semibold text-[.9rem]">Waste Items:</h4>
+        <ul class="list-disc list-inside">
+          <li *ngFor="let waste of request.wastes">
+            <span class="text-[.9rem] font-semibold">{{ waste.type }}</span>: {{ waste.weight }} kg
+          </li>
+        </ul>
+      </div>
+      <div class="w-full flex justify-end mt-4">
+        <button (click)="markAsOccupied(request)" class="px-3 py-2 rounded-md bg-primary-green text-white text-[.9rem] font-medium hover:opacity-80">
+          Mark as Occupied
+        </button>
+      </div>
+    </div>
+   </div>
+  </div>
