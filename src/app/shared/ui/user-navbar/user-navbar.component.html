@@ -1,0 +1,42 @@
+<nav class="bg-secondary-b shadow-lg">
+  <div class="container mx-auto px-4">
+    <div class="flex justify-between items-center">
+      <div>
+        <a href="#" class="flex items-center py-4 px-2">
+          <h1 class="text-3xl font-semibold">Recycle<span class="text-primary-green">HUB</span></h1>
+        </a>
+      </div>
+      <div class="flex items-center space-x-4">
+        <ng-container *ngIf="user$ | async as user">
+          <div *ngIf="user.role === 'user'" class="text-sm text-gray-600">
+            <span class="mr-2">Points: {{ user.points || 0 }}</span>
+            <span class="mr-2">|</span>
+            <span>Balance: ${{ user.balance || 0 }}</span>
+          </div>
+          
+          <div class="flex items-center space-x-2 cursor-pointer" (click)="togglePopup()">
+            <img src="assets/images/profile.png" alt="Profile" class="w-8 h-8 rounded-full">
+            <span class="font-medium text-gray-700">{{ user.fullName }}</span>
+          </div>
+        </ng-container>
+      </div>
+    </div>
+  </div>
+  
+  <div *ngIf="showPopup" class="absolute right-[10.5%] mt-2 w-48 bg-white rounded-md overflow-hidden shadow-xl z-10">
+    <ng-container *ngIf="user$ | async as user">
+      <ng-container *ngIf="user.role === 'collector'">
+        <a routerLink="/collector/profile" class="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100 cursor-pointer" (click)="hidePopup()">Profile</a>
+        <a routerLink="/collector/dashboard" class="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100 cursor-pointer" (click)="hidePopup()">Browse Requests</a>
+        <a routerLink="/collector/dashboard/requests" class="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100 cursor-pointer" (click)="hidePopup()">My Requests</a>
+      </ng-container>
+      <ng-container *ngIf="user.role === 'user'">
+        <a routerLink="/user/profile" class="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100 cursor-pointer" (click)="hidePopup()">Profile</a>
+        <a routerLink="/user/requests/create" class="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100 cursor-pointer" (click)="hidePopup()">Make Requests</a>
+        <a routerLink="/user/requests" class="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100 cursor-pointer" (click)="hidePopup()">My Requests</a>
+        <a routerLink="/user/points" class="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100 cursor-pointer" (click)="hidePopup()">My Points</a>
+      </ng-container>
+      <a (click)="logout()" class="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100 cursor-pointer" (click)="hidePopup()">Logout</a>
+    </ng-container>
+  </div>
+</nav>
