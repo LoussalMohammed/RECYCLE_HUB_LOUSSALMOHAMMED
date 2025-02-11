@@ -1,0 +1,39 @@
+
+@if (shownSuccessMsg()) {
+    <div class="w-[80%] mx-auto bg-[#8bc349] bg-opacity-70 h-[50px] text-white text-[.9rem] rounded-sm relative font-semibold flex items-center justify-start px-8">
+      <div class="absolute left-0 top-0 w-[20px] bg-[#8bc349]  bg-opacity-80 h-full ">
+      </div>
+      <p>Points Redeemed to ur balance successfully !</p>
+    </div>
+  }
+  @if (shownFailureMsg()) {
+    <div class="w-[80%] mx-auto bg-red-500 bg-opacity-70 h-[50px] text-white text-[.9rem] rounded-sm relative font-semibold flex items-center justify-start px-8">
+      <div class="absolute left-0 top-0 w-[20px] bg-red-500  bg-opacity-80 h-full ">
+      </div>
+      <p>Insuffisant Points !</p>
+    </div>
+  }
+  
+
+
+<div class="w-[80%] mx-auto mt-10 p-6 bg-white rounded-lg shadow-xl relative">
+    <app-title title="Points Conversion"/>
+  
+    <div *ngIf="user$ | async as user" class="bg-whitep-6 mb-6 mt-16">
+      <p class="text-[.95rem] font-semibold mb-2">Your current points: <span class="font-bold text-primary-green">{{ user.points || 0 }}</span></p>
+      <p class="text-[.95rem] font-semibold mb-2">Your current balance: <span class="font-bold text-primary-green">{{ user.balance || 0 }} Dh</span></p>
+    </div>
+  
+    <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
+      <div *ngFor="let option of voucherOptions" class="bg-white shadow-md flex flex-col gap-2 items-center rounded-lg p-6">
+        <h3 class="font-semibold mb-2 text-primary-green">{{ option.points }} Points</h3>
+        <p class="text-[.95rem] font-semibold mb-4">Voucher value: {{ option.amount }} Dh</p>
+        <button 
+          (click)="convertPoints(option)"
+          class="w-full bg-orange-300 text-white font-bold py-2 px-4 rounded hover:bg-opacity-80 transition duration-300"
+        >
+          Redeem
+        </button>
+      </div>
+    </div>
+  </div>
