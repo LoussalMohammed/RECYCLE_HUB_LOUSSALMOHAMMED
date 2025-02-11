@@ -1,0 +1,50 @@
+<div class="fixed inset-0 bg-black bg-opacity-70 overflow-y-auto h-full w-full flex flex-col gap-8 items-center justify-center" (click)="close()">
+    <div class="relative mx-auto p-5 w-[40%] shadow-lg rounded-md bg-white" (click)="$event.stopPropagation()">
+      <app-title title="Update Collection Request" />
+      
+      <div class=" text-center mt-12 flex flex-col gap-6">
+        @if (shownSuccessMsg()) {
+          <div class="w-[90%] mx-auto bg-[#8bc349] bg-opacity-70 h-[50px] z-1000 text-white text-[.9rem] rounded-sm relative font-semibold flex items-center justify-start px-8">
+            <div class="absolute left-0 top-0 w-[20px] bg-[#8bc349]  bg-opacity-80 h-full ">
+            </div>
+            <p>Request Updated Succesfully !</p>
+          </div>
+        }
+        <form [formGroup]="requestForm" (ngSubmit)="onSubmit()" class="space-y-4 ">
+          <div formArrayName="wastes">
+            <h3 class="text-[.9rem] font-medium mb-2">Waste Types :</h3>
+            <div *ngFor="let waste of wastes.controls; let i = index" [formGroupName]="i" class="flex items-center space-x-4 mb-2">
+              <label [for]="'waste-' + i" class="w-20 font-medium text-secondary-green">{{ waste.get('type')?.value }}</label>
+              <input [id]="'waste-' + i" type="number" formControlName="weight" class="flex-grow p-2 border focus:outline-none focus:ring-1 focus:ring-primary-green rounded" (input)="calculateTotalWeight(); calculatePoints()">
+              <span class="text-sm">kg</span>
+            </div>
+          </div>
+  
+          <div>
+            <label for="collectionAddress" class="block mb-1 text-secondary-green font-medium text-[.9rem]">Address</label>
+            <input id="collectionAddress" type="text" formControlName="collectionAddress" class="w-full p-2 border rounded">
+          </div>
+  
+          <div>
+            <label for="collectionDateTime" class="block mb-1 text-secondary-green font-medium text-[.9rem]">Collection Date</label>
+            <input id="collectionDateTime" type="datetime-local" formControlName="collectionDateTime" class="w-full p-2 border rounded">
+          </div>
+  
+          @if (shownErrorMsg()) {
+            <div class="w-full flex justify-end text-red-500 font-semibold text-[.9rem] underline">
+              <p>{{errorMsg}}</p>
+            </div>
+          }
+  
+          <div class="text-right">
+            <p class="font-semibold text-secondary-green">Total Weight: {{ totalWeight }} kg</p>
+            <p class="font-semibold text-secondary-green">Total Points: {{ totalPoints }}</p>
+          </div>
+  
+          <div class="flex justify-end space-x-4">
+            <button type="submit" class="px-4 py-2 bg-orange-300 text-white rounded hover:bg-opacity-90">Update Request</button>
+          </div>
+        </form>
+      </div>
+    </div>
+  </div>
