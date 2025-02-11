@@ -1,0 +1,38 @@
+<div class="flex justify-between items-center mb-2">
+    <span class="text-secondary-green font-semibold text-[.9rem]">Request ID: {{ request.id }}</span>
+    <span [class]="'px-2 py-1 rounded-full text-sm ' + getStatusClass(request.status)">
+      {{ request.status }}
+    </span>
+</div>
+<p><span class="text-secondary-green font-semibold text-[.9rem]">Collection Address:</span> {{ request.collectionAddress }}</p>
+<p><span class="text-secondary-green font-semibold text-[.9rem]">Collection Date & Time:</span> {{ request.collectionDateTime}}</p>
+<p><span class="text-secondary-green font-semibold text-[.9rem]">Points:</span> {{ request.points }}</p>
+<div class="mt-2">
+    <h4 class="text-secondary-green font-semibold text-[.9rem]">Waste Items:</h4>
+    <ul class="list-disc list-inside">
+      <li *ngFor="let waste of request.wastes">
+        <span class="text-[.9rem] font-semibold">{{ waste.type }}</span>: {{ waste.weight }} kg
+      </li>
+    </ul>
+</div>
+@if (request.status == "pending") {
+    <div class="w-full flex justify-end gap-4">
+        <button (click)="openUpdatePopup()" class="px-3 py-2 rounded-md bg-orange-300 text-white text-[.9rem] font-medium hover:bg-opacity-70">Update</button>
+        <button (click)="openDeleteConfirmation()" class="px-3 py-2 rounded-md bg-red-500 text-white text-[.9rem] font-medium hover:bg-opacity-80">Delete</button>
+    </div>
+}
+
+<app-request-update-popup
+    *ngIf="showUpdatePopup"
+    [request]="request"
+    (updateRequest)="onUpdateRequest($event)"
+    (closePopup)="closeUpdatePopup()"
+></app-request-update-popup>
+
+<app-confirmation-modal
+    *ngIf="showDeleteConfirmation"
+    message="Are you sure you want to delete this collection request?"
+    actionCompletedMessage="Collection Request Deleted Successfully ."
+    (confirm)="confirmDelete()"
+    (cancel)="closeDeleteConfirmation()"
+></app-confirmation-modal>
