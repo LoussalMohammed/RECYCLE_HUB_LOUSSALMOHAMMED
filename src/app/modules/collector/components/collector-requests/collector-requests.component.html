@@ -1,0 +1,79 @@
+
+@if (shownSuccessMsg()) {
+  <div class="w-[70%] mx-auto bg-[#8bc349] bg-opacity-70 h-[50px] text-white text-[.9rem] rounded-sm relative font-semibold flex items-center justify-start px-8">
+    <div class="absolute left-0 top-0 w-[20px] bg-[#8bc349]  bg-opacity-80 h-full ">
+    </div>
+    <p>{{successMsg()}}</p>
+  </div>
+}
+@if (shownRejectionMsg()) {
+  <div class="w-[70%] mx-auto bg-red-500 bg-opacity-70 h-[50px] text-white text-[.9rem] rounded-sm relative font-semibold flex items-center justify-start px-8">
+    <div class="absolute left-0 top-0 w-[20px] bg-red-500  bg-opacity-80 h-full ">
+    </div>
+    <p>{{errorMsg()}}</p>
+  </div>
+}
+
+<div class="w-[70%] mx-auto mt-10 p-6 bg-white rounded-lg shadow-xl relative">
+    <app-title title="My Collection Requests"/>
+    
+    <div class="flex flex-col gap-2 mt-12">
+      @if (collectorRequests.length === 0) {
+        <div class="text-center text-gray-500">
+          You have no active collection requests.
+        </div>
+      }
+    
+      <div *ngFor="let request of collectorRequests" class="mb-6 p-4 border rounded-lg ">
+        <div class="flex justify-between items-center mb-2">
+          <span class="text-secondary-green font-semibold text-[.9rem]">Request ID: {{ request.id }}</span>
+          <span [ngClass]="{'bg-blue-200 text-blue-800': request.status === 'occupied', 'bg-purple-200 text-purple-800': request.status === 'in_progress'}" class="px-2 py-1 rounded-full text-sm">
+            {{ request.status }}
+          </span>
+        </div>
+        <p><span class="text-secondary-green font-semibold text-[.9rem]">Collection Address:</span> {{ request.collectionAddress }}</p>
+        <p><span class="text-secondary-green font-semibold text-[.9rem]">Collection Date & Time:</span> {{ request.collectionDateTime }}</p>
+        <div class="mt-2">
+          <h4 class="text-secondary-green font-semibold text-[.9rem]">Waste Items:</h4>
+          <ul class="list-disc list-inside">
+            <li *ngFor="let waste of request.wastes">
+              <span class="text-[.9rem] font-semibold">{{ waste.type }}</span>: {{ waste.weight }} kg
+            </li>
+          </ul>
+        </div>
+        <div class="w-full flex justify-end mt-4">
+          <button *ngIf="request.status === 'occupied'" (click)="markAsInProgress(request)" class="px-3 py-2 rounded-md bg-orange-300 text-white text-[.9rem] font-medium hover:bg-opacity-80">
+            Start Collection
+          </button>
+          <button *ngIf="request.status === 'in_progress'" (click)="openUpdateForm(request)" class="px-3 py-2 rounded-md bg-orange-300 text-white text-[.9rem] font-medium hover:bg-opacity-70">
+            Update & Validate
+          </button>
+        </div>
+      </div>
+    </div>
+    
+  
+    <div *ngIf="selectedRequest" class="fixed inset-0 bg-gray-600 bg-opacity-50 overflow-y-auto h-full w-full flex items-center justify-center">
+      <div class="bg-white p-6 rounded-lg shadow-xl max-w-md w-full relative">
+        <app-title title="Validate Request"/>
+        <div class="flex flex-col gap-4 mt-12">
+          <form [formGroup]="updateForm" >
+            <div formArrayName="wastes">
+              <div *ngFor="let waste of wastes.controls; let i = index" [formGroupName]="i" class="mb-4">
+                  <label [for]="'waste-' + i" class="block text-sm font-medium text-gray-700">{{ waste.get('type')?.value }}</label>
+                  <input [id]="'waste-' + i" type="number" formControlName="weight" class="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-primary-green focus:ring focus:ring-primary-green focus:ring-opacity-50">
+                </div>              
+            </div>
+            <div class="mt-6 flex justify-end space-x-3">
+              <button type="button" (click)="rejectRequest()" class="px-3 py-2 bg-red-500 text-white rounded-md hover:bg-opacity-90 text-[.9rem] font-semibold focus:outline-none focus:ring-2 focus:ring-red-500 focus:ring-opacity-50">
+                Reject
+              </button>
+              <button type="button" (click)="validateRequest()" class="px-3 py-2 bg-orange-300 text-white rounded-md hover:bg-opacity-80 text-[.9rem] font-semibold focus:outline-none focus:ring-2 focus:ring-primary-green focus:ring-opacity-50">
+                Validate
+              </button>
+            </div>
+          </form>
+        </div>
+      </div>
+    </div>
+  </div>
