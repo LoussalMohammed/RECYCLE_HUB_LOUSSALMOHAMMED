@@ -1,0 +1,16 @@
+<div class="w-[70%] mx-auto mt-10 p-6 bg-white rounded-lg shadow-xl relative">
+  <app-title title="My Collection Requests"/> 
+  <div class="flex flex-col gap-4 mt-16">
+    <div *ngIf="requests.length === 0" class="text-center text-gray-500">
+      You have no collection requests yet.
+    </div>
+  
+    <div *ngFor="let request of requests" class="mb-6 p-4 border rounded-lg">
+      <app-collection-request-item 
+        [request]="request"
+        (updateRequest)="updateRequest($event)"
+        (deleteRequest)="deleteRequest($event)"
+      ></app-collection-request-item>
+    </div>
+  </div>
+</div>
