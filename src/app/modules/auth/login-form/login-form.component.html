@@ -1,0 +1,39 @@
+
+@if (shownLoginFailureMsg()) {
+    <p class="text-center font-bold text-[.85rem] text-red-600 ">Invalid Credentials . TRY AGAIN ! </p>
+}
+@if (shownLoginSuccessMsg()) {
+    <p class="text-center font-bold text-[.85rem] text-primary-green ">Signed in Succesfully ! Redirecting ... </p>
+}
+<form class="py-3" [formGroup]="loginForm" (submit)="onLoginFormSubmit($event)">
+    <div class="flex flex-col gap-2 mb-5">
+      <input  
+        type="email"
+        formControlName="email"
+        placeholder="E-mail"
+        formControlName="email"
+        class="px-3 w-full bg-input-color border-0 text-white placeholder:text-zinc-400 h-12 rounded-full focus:outline-none focus:ring-2 focus:ring-primary-green transition-all"
+      />
+      @if (authErrors().email) {
+        <p class="pl-3 text-red-500 text-[.8rem] font-semibold">{{authErrors().email}}</p>
+       }
+    </div>
+    <div class="flex flex-col gap-2">
+      <input
+        type="password"
+        formControlName="password"
+        placeholder="Password"
+        formControlName="password"
+        class="px-3 w-full bg-input-color border-0 text-white placeholder:text-zinc-400 h-12 rounded-full focus:outline-none focus:ring-2  focus:ring-primary-green transition-all"
+      />
+      @if (authErrors().password) {
+        <p class="pl-3 text-red-500 text-[.8rem] font-semibold">{{authErrors().password}}</p>
+       }
+    </div>
+    <button 
+      type="submit"
+      class="w-full bg-primary-green hover:opacity-90 hover:duration-500 text-white rounded-full h-12 font-medium transition-colors mt-6"
+    >
+      Login
+    </button>
+</form>
