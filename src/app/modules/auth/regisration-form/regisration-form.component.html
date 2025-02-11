@@ -1,0 +1,65 @@
+
+@if (shownSuccessMsg()) {
+    <p class="text-center font-bold text-[.85rem] text-primary-green ">User Registred Successfully , Redirecting ...</p>
+}
+<form class="py-4" [formGroup]="registrationForm" (submit)="handleSubmit($event)">
+    <div class="flex gap-4 w-full">
+     <div class="flex flex-col gap-1">
+        <input
+        type="text"
+        placeholder="Full Name"
+        formControlName="fullName"
+        class="px-3 w-full bg-input-color border-0 text-white placeholder:text-zinc-400 h-12 rounded-full focus:outline-none focus:ring-2 focus:ring-primary-green transition-all"
+       />
+       @if (authErrors().fullName) {
+        <p class="pl-3 text-red-500 text-[.8rem] font-semibold">{{authErrors().fullName}}</p>
+       }    
+     </div>
+     <div class="flex flex-col gap-2">
+        <input
+        type="email"
+        placeholder="E-mail"
+        formControlName="email"
+        class="px-3 w-full bg-input-color border-0 text-white placeholder:text-zinc-400 h-12 rounded-full focus:outline-none focus:ring-2 focus:ring-primary-green transition-all"
+      />
+      @if (authErrors().email) {
+        <p class="pl-3 text-red-500 text-[.8rem] font-semibold">{{authErrors().email}}</p>
+       }
+     </div>
+    
+    </div>
+    <div class="mt-6">
+        <div class="flex flex-col gap-2">
+            <input
+                type="text"
+                placeholder="Address"
+                formControlName="address"
+                class="px-3 w-full bg-input-color border-0 text-white placeholder:text-zinc-400 h-12 rounded-full focus:outline-none focus:ring-2 focus:ring-primary-green transition-all"
+            />
+            @if (authErrors().address) {
+                <p class="pl-3 text-red-500 text-[.8rem] font-semibold">{{authErrors().address}}</p>
+            }
+        </div>
+      
+    </div>
+    <div class="mt-6">
+        <div class="flex flex-col gap-2">
+            <input
+                type="password"
+                placeholder="Password"
+                formControlName="password"
+                class="px-3 w-full bg-input-color border-0 text-white placeholder:text-zinc-400 h-12 rounded-full focus:ring-1 focus:ring-primary-green transition-all"
+            />
+            @if (authErrors().password) {
+                <p class="pl-3 text-red-500 text-[.8rem] font-semibold">{{authErrors().password}}</p>
+            }
+        </div>
+      
+    </div>
+    <button 
+      type="submit"
+      class="w-full bg-primary-green hover:opacity-90 hover:duration-500 text-white rounded-full h-12 font-medium transition-colors mt-6 "
+    >
+      Create account
+    </button>
+  </form>
