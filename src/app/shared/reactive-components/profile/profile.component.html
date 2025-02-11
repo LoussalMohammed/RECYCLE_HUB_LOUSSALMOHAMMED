@@ -1,0 +1,81 @@
+@if (shownSuccessMsg()) {
+  <div class="w-[58%] mx-auto bg-[#8bc349] bg-opacity-70 h-[50px] text-white text-[.9rem] rounded-sm relative font-semibold flex items-center justify-start px-8">
+    <div class="absolute left-0 top-0 w-[20px] bg-[#8bc349]  bg-opacity-80 h-full ">
+    </div>
+    <p>Profile Updated Succesfully</p>
+  </div>
+}
+
+  <div class="w-[60%] mx-auto p-4 mt-20 ">
+    
+    <div class="bg-secondary-b rounded-lg shadow p-6 relative">
+      <div class="absolute top-0 left-0 0 w-full  bg-orange-300 text-[1.1rem] font-semibold text-white flex items-center justify-center h-[50px] rounded-t-md">
+        <p>Update Profile Page</p>
+      </div>
+  
+      <form [formGroup]="profileForm" (ngSubmit)="onSubmit()" class="space-y-6 mt-16">
+        <div class="grid grid-cols-1 gap-6">
+          <div>
+            <label class="block text-sm font-medium text-secondary-green">Full Name:</label>
+            <input
+              formControlName="fullName"
+              class="mt-1 px-3 py-1 block w-full rounded-md border-secondary-green shadow-sm bg-gray-100 focus:outline-none focus:ring-2 focus:ring-primary-green"
+              readonly
+            />
+          </div>
+          <div>
+            <label class="block text-sm font-medium text-secondary-green">Email:</label>
+            <input
+              formControlName="email"
+              class="mt-1 px-3 py-1 block w-full rounded-md border-secondary-green shadow-sm bg-gray-100 focus:outline-none focus:ring-2 focus:ring-primary-green"
+              readonly
+            />
+          </div>
+  
+          <div>
+            <label class="block text-sm font-medium text-secondary-green">Password:</label>
+            <input
+              type="password"
+              formControlName="password"
+              class="mt-1 px-3 py-1 block w-full rounded-md border-secondary-green shadow-sm bg-gray-100 focus:outline-none focus:ring-2 focus:ring-primary-green"
+            />
+          </div>
+  
+          <div>
+            <label class="block text-sm font-medium text-secondary-green">Address:</label>
+            <textarea
+              formControlName="address"
+              class="mt-1 px-3 py-1 block w-full rounded-md border-secondary-green shadow-sm bg-gray-100 focus:outline-none focus:ring-2 focus:ring-primary-green"
+            ></textarea>
+          </div>
+        </div>
+  
+        <div class="flex justify-end gap-4 pt-6">
+          <button
+            type="button"
+            (click)="onDeleteAccount()"
+            class="px-4 py-2 bg-red-500 text-[.9rem] font-medium text-white rounded-md hover:bg-opacity-80 cursor-pointer"
+          >
+            Delete Account
+          </button>
+          <button
+            type="submit"
+            [disabled]="!profileForm.valid || !profileForm.dirty"
+            class="px-4 py-2 bg-orange-300 text-[.9rem] font-medium text-white rounded-md hover:bg-opacity-90 cursor-pointer"
+          >
+            Save Changes
+          </button>
+        </div>
+      </form>
+    </div>
+  </div>
+  
+@if (showDeleteModal()) {
+    <app-confirmation-modal
+    [message]="'Are you sure you want to delete your account?'"
+    [actionCompletedMessage]="'Account deleted successfully.'"
+    (confirm)="confirmDeleteAccount()"
+    (cancel)="cancelDeleteAccount()"
+  ></app-confirmation-modal>
+}
+  
